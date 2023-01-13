@@ -1,0 +1,56 @@
+{
+  "name": "@ziadalkalza/react-native-colour-wheel",
+  "version": "1.0.0",
+  "description": "a customisable colour wheel package for react native apps",
+  "main": "./src/index.ts",
+  "scripts": {
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "start": "react-native start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ziadalkalza/react-native-colour-wheel.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "src"
+  ],
+  "keywords": [
+    "color-picker",
+    "colour-picker",
+    "color-wheel",
+    "colour-wheel",
+    "color",
+    "colour",
+    "picker",
+    "wheel",
+    "hsl",
+    "hsv",
+    "rgb",
+    "hex",
+    "react-native",
+    "android",
+    "ios",
+    "svg",
+    "hue",
+    "saturation",
+    "lightness",
+    "opacity"
+  ],
+  "author": "Ziad Alkalza (https://github.com/ziadalkalza)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ziadalkalza/react-native-colour-wheel/issues"
+  },
+  "homepage": "https://github.com/ziadalkalza/react-native-colour-wheel#readme",
+  "peerDependencies": {
+    "react": "18.1.0",
+    "react-native": "0.70.5",
+    "react-native-svg": "^13.5.0"
+  },
+  "private": false
+}
