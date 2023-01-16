@@ -37,7 +37,7 @@ Install with Expo:
 ## Usage
 
 ```javascript
-import Component from "my-project";
+import ColourWheel from "@ziadalkalza/react-native-colour-wheel";
 
 function App() {
   return (
