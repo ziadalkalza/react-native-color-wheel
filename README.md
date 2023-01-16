@@ -32,7 +32,7 @@ Install with Expo:
 
 ## Screenshot
 
-![ColourWheel Screenshot](https://user-images.githubusercontent.com/84280036/212576536-80f2b72d-ae9c-4469-b70d-9f869c76d96e.jpeg)
+![ColourWheel Screenshot](https://user-images.githubusercontent.com/84280036/212576643-782f498a-0b71-4a79-831d-5c6315a54fea.jpeg)
 
 ## Usage
 
