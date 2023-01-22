@@ -12,7 +12,7 @@ A highly customisable hsv color wheel package for React Native projects.
 
 ## Installation
 
-You need to install `react-native-svg` to be able to use this package.
+You need to install [`react-native-svg`](https://www.npmjs.com/package/react-native-svg) to be able to use this package.
 
 Install with CLI:
 
@@ -75,7 +75,7 @@ For component reference, please check the [Documentation](https://github.com/zia
 
 For any enquiries about the package, feel free to contact me through my github, or report an issue.
 
-To report an issue:
+#### To report an issue:
 
 1. Go to issues.
 2. Open an issue with a clear title, description and tag.
@@ -88,20 +88,20 @@ To report an issue:
 
 Contributions are always welcome! I am happy to accept any feedback and suggestions for improvements.
 
-Making modifications:
+#### Making modifications:
 
 1. Fork repository
 2. Clone your fork
 3. Make your changes (add branches if needed)
 
-Committing:
+#### Committing:
 
 1. Check that your code is running properly on your local machine.
 2. Make sure that the PR is linked to an issue. If no issue exists, please create an issue for it (this ensures there is good communication and all PRs are clear).
 3. Merge PR into the main branch.
 4. PR title should be in the format of prefix:issueNumber/Title
 
-Prefixes:
+##### Prefixes:
 
 - fix: bug fix
 - feat: new feature
