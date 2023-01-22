@@ -80,24 +80,23 @@ To report an issue:
 1. Go to issues.
 2. Open an issue with a clear title, description and tag.
 3. Make sure you include:
-4. A thorough explanation of the issue.
-5. Steps to reproduce the issue.
-6. Any error logs.
+   - A thorough explanation of the issue.
+   - Steps to reproduce the issue.
+   - Any error logs.
 
 ## Contributing
 
-Contributions are always welcome! I am happy to accept any feedback and suggestions for improvement.
+Contributions are always welcome! I am happy to accept any feedback and suggestions for improvements.
 
 Making modifications:
 
 1. Fork repository
 2. Clone your fork
 3. Make your changes (add branches if needed)
-4. Add a testExample
 
 Committing:
 
-1. Check that your code is running properly on your local machine, and that all the tests are passing before making a pull request.
+1. Check that your code is running properly on your local machine.
 2. Make sure that the PR is linked to an issue. If no issue exists, please create an issue for it (this ensures there is good communication and all PRs are clear).
 3. Merge PR into the main branch.
 4. PR title should be in the format of prefix:issueNumber/Title
