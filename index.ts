@@ -1,5 +1,5 @@
-import ColourWheel from "./src/wheelContainer";
+import ColorWheel from "./src/wheelContainer";
 import CustomSlider from './src/slider'
 
-export default ColourWheel;
+export default ColorWheel;
 export { CustomSlider }

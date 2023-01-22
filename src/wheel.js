@@ -1,6 +1,13 @@
-import React, {useEffect, useState} from 'react';
-import {PanResponder, View} from 'react-native';
-import {Svg, Defs, Path, LinearGradient, Stop, Circle} from 'react-native-svg';
+import React from "react";
+import { PanResponder } from "react-native";
+import {
+  Svg,
+  Defs,
+  Path,
+  LinearGradient,
+  Stop,
+  Circle,
+} from "react-native-svg";
 
 const Wheel = ({
   size,
@@ -12,29 +19,32 @@ const Wheel = ({
   thumbBorderColor,
   thumbBorderWidth,
   rotation,
+  xOffset,
+  yOffset,
 }) => {
-  const offset = thumbSize;
+  const offset = thumbSize + thumbBorderWidth / 2;
   const radius = (size - trackWidth) / 2;
   const cx = size / 2;
   const cy = size / 2;
-  const clockwise = rotation === 'clockwise' ? -1 : 1;
-  const [x, setX] = useState(
-    radius * Math.cos((clockwise * ((hue + degreeOffset) * Math.PI)) / 180),
-  );
-  const [y, setY] = useState(
-    radius * Math.sin((clockwise * ((hue + degreeOffset) * Math.PI)) / 180),
-  );
+  const clockwise = rotation === "clockwise" ? -1 : 1;
+  const x =
+    radius * Math.cos((clockwise * ((hue + degreeOffset) * Math.PI)) / 180);
+  const y =
+    radius * Math.sin((clockwise * ((hue + degreeOffset) * Math.PI)) / 180);
 
-  useEffect(() => {
-    setX(
-      radius * Math.cos((clockwise * ((hue + degreeOffset) * Math.PI)) / 180),
-    );
-    setY(
-      radius * Math.sin((clockwise * ((hue + degreeOffset) * Math.PI)) / 180),
-    );
-  }, [radius, clockwise, hue, degreeOffset]);
+  const pathPanResponder = PanResponder.create({
+    onStartShouldSetPanResponder: (e, gs) => true,
+    onStartShouldSetPanResponderCapture: (e, gs) => true,
+    onPanResponderStart: (e, gs) => {
+      const newAngle = Math.atan2(
+        cy - e.nativeEvent.locationY,
+        e.nativeEvent.locationX - cx
+      );
+      setHue(degreeOffset + (180 * newAngle * clockwise) / Math.PI);
+    },
+  });
 
-  const panResponder = PanResponder.create({
+  const thumbPanResponder = PanResponder.create({
     onStartShouldSetPanResponder: (e, gs) => true,
     onStartShouldSetPanResponderCapture: (e, gs) => true,
     onMoveShouldSetPanResponder: (e, gs) => true,
@@ -42,8 +52,6 @@ const Wheel = ({
     onPanResponderMove: (e, gs) => {
       const newAngle = Math.atan2(y - gs.dy, x + gs.dx);
       setHue(degreeOffset + (180 * newAngle * clockwise) / Math.PI);
-      setX(radius * Math.cos(newAngle));
-      setY(radius * Math.sin(newAngle));
     },
   });
 
@@ -82,6 +90,7 @@ const Wheel = ({
             d={`M ${cx + offset} ${
               cy + offset
             } m ${rootX}, ${rootY} a ${radius}, ${radius} 0 0 0 ${dx}, ${dy}`}
+            {...pathPanResponder.panHandlers}
           />
         );
       })}
@@ -92,7 +101,7 @@ const Wheel = ({
         fill={`hsl(${hue},100%,50%)`}
         stroke={thumbBorderColor}
         strokeWidth={thumbBorderWidth}
-        {...panResponder.panHandlers}
+        {...thumbPanResponder.panHandlers}
       />
     </Svg>
   );

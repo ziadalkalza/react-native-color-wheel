@@ -1,8 +1,8 @@
-import React, {useState, useEffect} from 'react';
-import {View} from 'react-native';
-import Slider from './slider';
-import Wheel from './wheel';
-import {Props, onChangeArg} from './props';
+import React, { useState, useCallback } from "react";
+import { View } from "react-native";
+import Slider from "./slider";
+import Wheel from "./wheel";
+import { Props, onChangeArg } from "./props";
 import {
   defaultHueWheel,
   defaultSaturationSlider,
@@ -11,9 +11,9 @@ import {
   defaultCustomComponentProps,
   defaultColorFormat,
   defaultDimensions,
-} from './defaults';
+} from "./defaults";
 
-const ColourWheel = ({
+const ColorWheel = ({
   hueWheel = defaultHueWheel,
   saturationSlider = defaultSaturationSlider,
   lightnessSlider = defaultLightnessSlider,
@@ -22,43 +22,20 @@ const ColourWheel = ({
   customComponentProps = defaultCustomComponentProps,
   dimensions = defaultDimensions,
   colorFormat = defaultColorFormat,
-  onChange = x => x,
+  onChange = (x) => x,
 }: Props): JSX.Element => {
   const [hue, setHue] = useState(
-    (hueWheel.defaultValue || defaultHueWheel.defaultValue) % 360,
+    (hueWheel.value || defaultHueWheel.value) % 360
   );
   const [saturation, setSaturation] = useState(
-    (saturationSlider.defaultValue || defaultSaturationSlider.defaultValue) %
-      100,
+    (saturationSlider.value || defaultSaturationSlider.value) % 100
   );
   const [lightness, setLightness] = useState(
-    (lightnessSlider.defaultValue || defaultLightnessSlider.defaultValue) % 100,
+    (lightnessSlider.value || defaultLightnessSlider.value) % 100
   );
   const [opacity, setOpacity] = useState(
-    ((opacitySlider.defaultValue || defaultOpacitySlider.defaultValue) * 10) %
-      10,
+    ((opacitySlider.value || defaultOpacitySlider.value) * 10) % 10
   );
-
-  useEffect(() => {
-    setHue((hueWheel.defaultValue || defaultHueWheel.defaultValue) % 360);
-    setSaturation(
-      (saturationSlider.defaultValue || defaultSaturationSlider.defaultValue) %
-        100,
-    );
-    setLightness(
-      (lightnessSlider.defaultValue || defaultLightnessSlider.defaultValue) %
-        100,
-    );
-    setOpacity(
-      ((opacitySlider.defaultValue || defaultOpacitySlider.defaultValue) * 10) %
-        10,
-    );
-  }, [
-    hueWheel.defaultValue,
-    saturationSlider.defaultValue,
-    lightnessSlider.defaultValue,
-    opacitySlider.defaultValue,
-  ]);
 
   const getColor = (n: number, a: number) => {
     const k = (n + hue / 30) % 12;
@@ -67,7 +44,7 @@ const ColourWheel = ({
 
   const handleValueChange = (): onChangeArg => {
     switch (colorFormat) {
-      case 'rgb': {
+      case "rgb": {
         const a =
           (saturation / 100) * Math.min(lightness / 100, 1 - lightness / 100);
         const r = getColor(0, a);
@@ -75,10 +52,10 @@ const ColourWheel = ({
         const b = getColor(4, a);
         return {
           value: `rgb(${r}, ${g}, ${b})`,
-          data: {red: r, green: g, blue: b},
+          data: { red: r, green: g, blue: b },
         };
       }
-      case 'rgba': {
+      case "rgba": {
         const a =
           (saturation / 100) * Math.min(lightness / 100, 1 - lightness / 100);
         const r = getColor(0, a);
@@ -86,74 +63,76 @@ const ColourWheel = ({
         const b = getColor(4, a);
         return {
           value: `rgba(${r}, ${g}, ${b}, ${opacity})`,
-          data: {red: r, green: g, blue: b, opacity},
+          data: { red: r, green: g, blue: b, opacity },
         };
       }
-      case 'hsv': {
+      case "hsv": {
         const l = lightness / 100;
         const s = saturation / 100;
         const val = l + s * Math.min(l, 1 - l);
         const sat = val === 0 ? 0 : 2 * (1 - l / val);
         return {
           value: `hsv(${hue}, ${sat}%, ${val})`,
-          data: {hue, saturation: sat, value: val},
+          data: { hue, saturation: sat, value: val },
         };
       }
-      case 'hsl':
+      case "hsl":
         return {
           value: `hsl(${hue}, ${saturation}%, ${lightness}%)`,
-          data: {hue, saturation, lightness},
+          data: { hue, saturation, lightness },
         };
-      case 'hsla':
+      case "hsla":
         return {
           value: `hsla(${hue}, ${saturation}%, ${lightness}%, ${opacity})`,
-          data: {hue, saturation, lightness, opacity},
+          data: { hue, saturation, lightness, opacity },
         };
-      case 'hex': {
+      case "hex": {
         const a =
           (saturation / 100) * Math.min(lightness / 100, 1 - lightness / 100);
         const r = Math.round(255 * getColor(0, a))
           .toString(16)
-          .padStart(2, '0');
+          .padStart(2, "0");
         const g = Math.round(255 * getColor(8, a))
           .toString(16)
-          .padStart(2, '0');
+          .padStart(2, "0");
         const b = Math.round(255 * getColor(4, a))
           .toString(16)
-          .padStart(2, '0');
+          .padStart(2, "0");
         return {
           value: `#${r}${g}${b}`,
         };
       }
       default:
         return {
-          value: '',
+          value: "",
           data: {
-            hue: defaultHueWheel.defaultValue,
-            saturation: defaultSaturationSlider.defaultValue,
-            lightness: defaultLightnessSlider.defaultValue,
-            opacity: defaultOpacitySlider.defaultValue,
+            hue: defaultHueWheel.value,
+            saturation: defaultSaturationSlider.value,
+            lightness: defaultLightnessSlider.value,
+            opacity: defaultOpacitySlider.value,
           },
         };
     }
   };
 
-  useEffect(() => {
+  useCallback(() => {
     onChange(handleValueChange());
   }, [hue, saturation, lightness, opacity]);
 
   return (
     <View
       style={{
-        width: dimensions.type === 'relative' ? dimensions.width : 0,
-        height: dimensions.type === 'relative' ? dimensions.height : 0,
-      }}>
+        width: dimensions.type === "relative" ? dimensions.width : 0,
+        height: dimensions.type === "relative" ? dimensions.height : 0,
+      }}
+    >
       <View
         style={{
-          position: 'absolute',
+          position: "absolute",
           top: hueWheel.yOffset || defaultHueWheel.yOffset,
           left: hueWheel.xOffset || defaultHueWheel.xOffset,
-        }}>
+        }}
+      >
         <Wheel
           size={hueWheel.size || defaultHueWheel.size}
           hue={hue}
@@ -163,22 +142,23 @@ const ColourWheel = ({
           }
           trackWidth={hueWheel.trackWidth || defaultHueWheel.trackWidth}
           thumbSize={hueWheel.thumbSize || defaultHueWheel.thumbSize}
-          thumbBorderColor={
-            hueWheel.thumbBorderColor || defaultHueWheel.thumbBorderColor
-          }
+          thumbBorderColor={hueWheel.thumbBorderColor || null}
           thumbBorderWidth={
             hueWheel.thumbBorderWidth || defaultHueWheel.thumbBorderWidth
           }
           rotation={hueWheel.rotation || defaultHueWheel.rotation}
+          xOffset={hueWheel.xOffset || defaultHueWheel.xOffset}
+          yOffset={hueWheel.yOffset || defaultHueWheel.yOffset}
         />
       </View>
       {(saturationSlider.enable || defaultSaturationSlider.enable) && (
         <View
           style={{
-            position: 'absolute',
+            position: "absolute",
             top: saturationSlider.yOffset || defaultSaturationSlider.yOffset,
             left: saturationSlider.xOffset || defaultSaturationSlider.xOffset,
-          }}>
+          }}
+        >
           <Slider
             sliderType="saturation"
             length={saturationSlider.length || defaultSaturationSlider.length}
@@ -197,6 +177,11 @@ const ColourWheel = ({
             trackWidth={
               saturationSlider.trackWidth || defaultSaturationSlider.trackWidth
             }
+            trackBorderColor={saturationSlider.trackBorderColor}
+            trackBorderWidth={
+              saturationSlider.trackBorderWidth ||
+              defaultSaturationSlider.trackBorderWidth
+            }
             thumbSize={
               saturationSlider.thumbSize || defaultSaturationSlider.thumbSize
             }
@@ -204,13 +189,20 @@ const ColourWheel = ({
               saturationSlider.thumbBorderWidth ||
               defaultSaturationSlider.thumbBorderWidth
             }
-            thumbBorderColor={
-              saturationSlider.thumbBorderColor ||
-              defaultSaturationSlider.thumbBorderColor
+            thumbBorderColor={saturationSlider.thumbBorderColor}
+            borderRadius={
+              saturationSlider.borderRadius ||
+              defaultSaturationSlider.borderRadius
             }
             orientation={
               saturationSlider.orientation ||
               defaultSaturationSlider.orientation
+            }
+            xOffset={
+              saturationSlider.xOffset || defaultSaturationSlider.xOffset
+            }
+            yOffset={
+              saturationSlider.yOffset || defaultSaturationSlider.yOffset
             }
           />
         </View>
@@ -218,10 +210,11 @@ const ColourWheel = ({
       {(lightnessSlider.enable || defaultLightnessSlider.enable) && (
         <View
           style={{
-            position: 'absolute',
+            position: "absolute",
             top: lightnessSlider.yOffset || defaultLightnessSlider.yOffset,
             left: lightnessSlider.xOffset || defaultLightnessSlider.xOffset,
-          }}>
+          }}
+        >
           <Slider
             sliderType="lightness"
             length={lightnessSlider.length || defaultLightnessSlider.length}
@@ -240,6 +233,11 @@ const ColourWheel = ({
             trackWidth={
               lightnessSlider.trackWidth || defaultLightnessSlider.trackWidth
             }
+            trackBorderColor={lightnessSlider.trackBorderColor}
+            trackBorderWidth={
+              lightnessSlider.trackBorderWidth ||
+              defaultLightnessSlider.trackBorderWidth
+            }
             thumbSize={
               lightnessSlider.thumbSize || defaultLightnessSlider.thumbSize
             }
@@ -247,23 +245,27 @@ const ColourWheel = ({
               lightnessSlider.thumbBorderWidth ||
               defaultLightnessSlider.thumbBorderWidth
             }
-            thumbBorderColor={
-              lightnessSlider.thumbBorderColor ||
-              defaultLightnessSlider.thumbBorderColor
+            thumbBorderColor={lightnessSlider.thumbBorderColor}
+            borderRadius={
+              lightnessSlider.borderRadius ||
+              defaultLightnessSlider.borderRadius
             }
             orientation={
               lightnessSlider.orientation || defaultLightnessSlider.orientation
             }
+            xOffset={lightnessSlider.xOffset || defaultLightnessSlider.xOffset}
+            yOffset={lightnessSlider.yOffset || defaultLightnessSlider.yOffset}
           />
         </View>
       )}
       {(opacitySlider.enable || defaultOpacitySlider.enable) && (
         <View
           style={{
-            position: 'absolute',
+            position: "absolute",
             top: opacitySlider.yOffset || defaultOpacitySlider.yOffset,
             left: opacitySlider.xOffset || defaultOpacitySlider.xOffset,
-          }}>
+          }}
+        >
           <Slider
             sliderType="opacity"
             length={opacitySlider.length || defaultOpacitySlider.length}
@@ -278,6 +280,11 @@ const ColourWheel = ({
             trackWidth={
               opacitySlider.trackWidth || defaultOpacitySlider.trackWidth
             }
+            trackBorderColor={opacitySlider.trackBorderColor}
+            trackBorderWidth={
+              opacitySlider.trackBorderWidth ||
+              defaultOpacitySlider.trackBorderWidth
+            }
             thumbSize={
               opacitySlider.thumbSize || defaultOpacitySlider.thumbSize
             }
@@ -285,13 +292,15 @@ const ColourWheel = ({
               opacitySlider.thumbBorderWidth ||
               defaultOpacitySlider.thumbBorderWidth
             }
-            thumbBorderColor={
-              opacitySlider.thumbBorderColor ||
-              defaultOpacitySlider.thumbBorderColor
+            thumbBorderColor={opacitySlider.thumbBorderColor}
+            borderRadius={
+              opacitySlider.borderRadius || defaultOpacitySlider.borderRadius
             }
             orientation={
               opacitySlider.orientation || defaultOpacitySlider.orientation
             }
+            xOffset={opacitySlider.xOffset || defaultOpacitySlider.xOffset}
+            yOffset={opacitySlider.yOffset || defaultOpacitySlider.yOffset}
           />
         </View>
       )}
@@ -304,7 +313,8 @@ const ColourWheel = ({
             left:
               customComponentProps.xOffset ||
               defaultCustomComponentProps.xOffset,
-          }}>
+          }}
+        >
           <CustomComponent />
         </View>
       )}
@@ -312,4 +322,4 @@ const ColourWheel = ({
   );
 };
 
-export default React.memo(ColourWheel);
+export default React.memo(ColorWheel);

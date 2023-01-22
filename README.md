@@ -1,13 +1,13 @@
-# React Native Colour Wheel
+# React Native Color Wheel
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 
-A highly customisable hsv colour wheel package for React Native projects.
+A highly customisable hsv color wheel package for React Native projects.
 
 ## Features
 
-- Can add a custom component inside the main colour wheel component
-- Can retrieve colour in one of several types (rgb, rgba, hsl, hsla, hsv, hex)
+- Can add a custom component inside the main color wheel component
+- Can retrieve color in one of several types (rgb, rgba, hsl, hsla, hsv, hex)
 - Compatible with Android and IOS
 
 ## Installation
@@ -15,33 +15,33 @@ A highly customisable hsv colour wheel package for React Native projects.
 Install with CLI:
 
 ```bash
-  npm install @ziadalkalza/react-native-colour-wheel
+  npm install @ziadalkalza/react-native-color-wheel
 ```
 
 OR
 
 ```bash
-  yarn add @ziadalkalza/react-native-colour-wheel
+  yarn add @ziadalkalza/react-native-color-wheel
 ```
 
 Install with Expo:
 
 ```bash
-  expo install @ziadalkalza/react-native-colour-wheel
+  expo install @ziadalkalza/react-native-color-wheel
 ```
 
 ## Screenshot
 
-![ColourWheel Screenshot](https://user-images.githubusercontent.com/84280036/212576643-782f498a-0b71-4a79-831d-5c6315a54fea.jpeg)
+![ColorWheel Screenshot](https://user-images.githubusercontent.com/84280036/212576643-782f498a-0b71-4a79-831d-5c6315a54fea.jpeg)
 
 ## Usage
 
 ```javascript
-import ColourWheel from "@ziadalkalza/react-native-colour-wheel";
+import ColorWheel from "@ziadalkalza/react-native-color-wheel";
 
 function App() {
   return (
-    <ColourWheel
+    <ColorWheel
       lightnessSlider={{
         enable: true,
         orientation: "horizontal",
@@ -65,11 +65,11 @@ function App() {
 
 ## Demo
 
-To explore the colour wheel, you can use this [Codesandbox]() link.
+To explore the color wheel, you can use this [Codesandbox]() link.
 
 ## Documentation
 
-For component reference, please check the [Documentation](https://github.com/ziadalkalza/react-native-colour-wheel/blob/master/DOCUMENTATION.md).
+For component reference, please check the [Documentation](https://github.com/ziadalkalza/react-native-color-wheel/blob/master/DOCUMENTATION.md).
 
 ## Support
 

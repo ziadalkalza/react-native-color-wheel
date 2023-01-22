@@ -12,45 +12,54 @@ export interface DimensionsProp {
 }
 
 export interface CustomSliderProp {
+    length?: number
     sliderType: SliderType
-    value?: number
-    setValue: React.Dispatch<React.SetStateAction<number>>
+    value: number
+    setValue?: React.Dispatch<React.SetStateAction<number>>
     hue?: number
     minValue?: number
     maxValue?: number
     direction?: DirectionType
-    orientation?: OrientationType
-    length?: number
     trackWidth?: number
+    trackBorderColor?: string
+    trackBorderWidth?: number
     thumbSize?: number
     thumbBorderWidth?: number
     thumbBorderColor?: string
+    borderRadius?: number
+    orientation?: OrientationType
+    xOffset?: number
+    yOffset?: number
+}
+
+export interface SliderProp {
+    enable: boolean
+    length: number
+    value: number
+    minValue: number
+    maxValue: number
+    direction: DirectionType
+    trackWidth: number
+    trackBorderColor?: string
+    trackBorderWidth: number
+    thumbSize: number
+    thumbBorderWidth: number
+    thumbBorderColor?: string
+    borderRadius: number
+    orientation: OrientationType
+    xOffset: number
+    yOffset: number
 }
 
 export interface WheelProp {
-    defaultValue: number
+    value: number
     size: number
     rotation: RotationType
     degreeOffset: number
     trackWidth: number
     thumbSize: number
     thumbBorderWidth: number
-    thumbBorderColor: string
-    xOffset: number
-    yOffset: number
-}
-export interface SliderProp {
-    enable: Boolean
-    defaultValue: number
-    minValue: number
-    maxValue: number
-    direction: DirectionType
-    orientation: OrientationType
-    length: number
-    trackWidth: number
-    thumbSize: number
-    thumbBorderWidth: number
-    thumbBorderColor: string
+    thumbBorderColor?: string
     xOffset: number
     yOffset: number
 }

@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { PanResponder } from "react-native";
 import {
   Svg,
   Defs,
-  Path,
   LinearGradient,
   Stop,
   Rect,
@@ -15,26 +14,29 @@ import { defaultCustomSlider } from "./defaults";
 const Slider = ({
   length = defaultCustomSlider.length,
   sliderType = defaultCustomSlider.sliderType,
-  value = defaultCustomSlider.defaultValue,
+  value = defaultCustomSlider.value,
   setValue,
   hue = defaultCustomSlider.hue,
   minValue = defaultCustomSlider.minValue,
   maxValue = defaultCustomSlider.maxValue,
   direction = defaultCustomSlider.direction,
   trackWidth = defaultCustomSlider.trackWidth,
+  trackBorderColor,
+  trackBorderWidth = defaultCustomSlider.trackBorderWidth,
   thumbSize = defaultCustomSlider.thumbSize,
   thumbBorderWidth = defaultCustomSlider.thumbBorderWidth,
-  thumbBorderColor = defaultCustomSlider.thumbBorderColor,
+  thumbBorderColor,
+  borderRadius = defaultCustomSlider.borderRadius,
   orientation = defaultCustomSlider.orientation,
+  xOffset = defaultCustomSlider.xOffset,
+  yOffset = defaultCustomSlider.yOffset,
 }: CustomSliderProp) => {
   const horizontal = orientation === "horizontal";
   const positive = direction === "positive";
-  const offset = thumbSize + thumbBorderWidth;
-  const [pos, setPos] = useState(
-    positive
-      ? ((value - minValue) / (maxValue - minValue)) * length
-      : (1 - (value - minValue) / (maxValue - minValue)) * length
-  );
+  const offset = thumbSize + thumbBorderWidth / 2;
+  const pos = positive
+    ? ((value - minValue) / (maxValue - minValue)) * length
+    : (1 - (value - minValue) / (maxValue - minValue)) * length;
   const colorStart = `hsla(${hue}, ${
     sliderType === "saturation" ? minValue : 100
   }%, ${sliderType === "lightness" ? minValue : 50}%, ${
@@ -52,14 +54,6 @@ const Slider = ({
   })`;
 
   useEffect(() => {
-    setPos(
-      positive
-        ? ((value - minValue) / (maxValue - minValue)) * length
-        : (1 - (value - minValue) / (maxValue - minValue)) * length
-    );
-  }, [value, minValue, maxValue, length]);
-
-  useEffect(() => {
     if (minValue > maxValue) {
       throw new TypeError(
         'Invalid property number "minValue" or "maxValue". minValue must be less than maxValue'
@@ -72,20 +66,50 @@ const Slider = ({
     }
   }, []);
 
-  const panResponder = PanResponder.create({
+  const trackPanResponder = PanResponder.create({
+    onStartShouldSetPanResponder: (e, gs) => true,
+    onStartShouldSetPanResponderCapture: (e, gs) => true,
+    onPanResponderStart: (e, gs) => {
+      const newPos = horizontal
+        ? e.nativeEvent.locationX
+        : e.nativeEvent.locationY;
+      const newValue = positive
+        ? (newPos / length) * (maxValue - minValue) + minValue
+        : (1 - newPos / length) * (maxValue - minValue) + minValue;
+      setValue(newValue);
+    },
+  });
+
+  const thumbPanResponder = PanResponder.create({
     onStartShouldSetPanResponder: (e, gs) => true,
     onStartShouldSetPanResponderCapture: (e, gs) => true,
     onMoveShouldSetPanResponder: (e, gs) => true,
     onMoveShouldSetPanResponderCapture: (e, gs) => true,
     onPanResponderMove: (e, gs) => {
       const newPos = horizontal ? pos + gs.dx : pos + gs.dy;
-      if (newPos > length) setPos(length);
-      else if (newPos < 0) setPos(0);
-      else setPos(newPos);
-      const newValue = positive
-        ? (newPos / length) * (maxValue - minValue) + minValue
-        : (1 - newPos / length) * (maxValue - minValue) + minValue;
-      setValue(newValue);
+      if (newPos > length) {
+        setValue(positive ? maxValue : minValue);
+      } else if (newPos < 0) {
+        setValue(positive ? minValue : maxValue);
+      } else {
+        const newValue = positive
+          ? (newPos / length) * (maxValue - minValue) + minValue
+          : (1 - newPos / length) * (maxValue - minValue) + minValue;
+        setValue(newValue);
+      }
+    },
+    onPanResponderRelease: (e, gs) => {
+      const newPos = horizontal ? pos + gs.dx : pos + gs.dy;
+      if (newPos > length) {
+        setValue(positive ? maxValue : minValue);
+      } else if (newPos < 0) {
+        setValue(positive ? minValue : maxValue);
+      } else {
+        const newValue = positive
+          ? (newPos / length) * (maxValue - minValue) + minValue
+          : (1 - newPos / length) * (maxValue - minValue) + minValue;
+        setValue(newValue);
+      }
     },
   });
 
@@ -115,18 +139,23 @@ const Slider = ({
       <Rect
         x={offset}
         y={trackWidth / 2 > offset ? 0 : offset - trackWidth / 2}
+        rx={borderRadius}
+        ry={borderRadius}
         width={horizontal ? length : trackWidth}
         height={horizontal ? trackWidth : length}
         fill={`url(#slider)`}
+        stroke={trackBorderColor}
+        strokeWidth={trackBorderWidth}
+        {...trackPanResponder.panHandlers}
       />
       <Circle
         r={thumbSize}
         cx={horizontal ? pos + offset : Math.max(trackWidth / 2, offset)}
         cy={horizontal ? Math.max(trackWidth / 2, offset) : pos + offset}
         fill={thumbFill}
-        stroke={thumbBorderColor}
+        stroke={thumbBorderColor || null}
         strokeWidth={thumbBorderWidth}
-        {...panResponder.panHandlers}
+        {...thumbPanResponder.panHandlers}
       />
     </Svg>
   );

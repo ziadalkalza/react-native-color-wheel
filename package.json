@@ -1,7 +1,7 @@
 {
-  "name": "@ziadalkalza/react-native-colour-wheel",
+  "name": "@ziadalkalza/react-native-color-wheel",
   "version": "1.0.0",
-  "description": "a customisable colour wheel package for react native apps",
+  "description": "a customisable color wheel package for react native apps",
   "main": "./src/index.ts",
   "scripts": {
     "android": "react-native run-android",
@@ -11,13 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ziadalkalza/react-native-colour-wheel.git"
+    "url": "git+https://github.com/ziadalkalza/react-native-color-wheel.git"
   },
   "publishConfig": {
     "access": "public"
   },
   "files": [
-    "src"
+    "src",
+    "index.ts"
   ],
   "keywords": [
     "color-picker",
@@ -44,9 +45,9 @@
   "author": "Ziad Alkalza (https://github.com/ziadalkalza)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ziadalkalza/react-native-colour-wheel/issues"
+    "url": "https://github.com/ziadalkalza/react-native-color-wheel/issues"
   },
-  "homepage": "https://github.com/ziadalkalza/react-native-colour-wheel#readme",
+  "homepage": "https://github.com/ziadalkalza/react-native-color-wheel#readme",
   "peerDependencies": {
     "react": "18.1.0",
     "react-native": "0.70.5",
