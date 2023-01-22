@@ -1,6 +1,6 @@
 {
   "name": "@ziadalkalza/react-native-color-wheel",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "a customisable color wheel package for react native apps",
   "main": "./src/index.ts",
   "scripts": {
