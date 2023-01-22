@@ -1,6 +1,6 @@
 {
   "name": "@ziadalkalza/react-native-color-wheel",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "a customisable color wheel package for react native apps",
   "main": "./src/index.ts",
   "scripts": {
@@ -48,7 +48,7 @@
     "url": "https://github.com/ziadalkalza/react-native-color-wheel/issues"
   },
   "homepage": "https://github.com/ziadalkalza/react-native-color-wheel#readme",
-  "peerDependencies": {
+  "dependencies": {
     "react": "18.1.0",
     "react-native": "0.70.5",
     "react-native-svg": "^13.5.0"
