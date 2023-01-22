@@ -7,10 +7,12 @@ A highly customisable hsv color wheel package for React Native projects.
 ## Features
 
 - Can add a custom component inside the main color wheel component
-- Can retrieve color in one of several types (rgb, rgba, hsl, hsla, hsv, hex)
+- Can convert the selected color to one of six formats (rgb, rgba, hsl, hsla, hsv, hex)
 - Compatible with Android and IOS
 
 ## Installation
+
+You need to install `react-native-svg` to be able to use this package.
 
 Install with CLI:
 
@@ -32,7 +34,9 @@ Install with Expo:
 
 ## Screenshot
 
-![ColorWheel Screenshot](https://user-images.githubusercontent.com/84280036/212576643-782f498a-0b71-4a79-831d-5c6315a54fea.jpeg)
+![ColorWheel Screenshot 1](https://user-images.githubusercontent.com/84280036/213895928-45b96554-20bf-47fa-aab7-fa5b50c0402e.jpeg)
+
+![ColorWheel Screenshot 2](https://user-images.githubusercontent.com/84280036/213895936-191f22a0-0667-4594-b879-5b259e1408db.jpeg)
 
 ## Usage
 
@@ -62,10 +66,6 @@ function App() {
   );
 }
 ```
-
-## Demo
-
-To explore the color wheel, you can use this [Codesandbox]() link.
 
 ## Documentation
 
